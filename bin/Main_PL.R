@@ -26,6 +26,7 @@ lIS<-list(NULL)
 if (TRUE){
   #0.95,0.15,1,0.1584893,1,6.3095734,1584.8931925
 # 10/20/2020 : c(0.7,0.2,1.6,1,1,10,10)
+# 11/20/2020 : c(0.75,0.2,1,1,1,10,1000)
   
   
   #result <- NULL
@@ -38,7 +39,7 @@ if (TRUE){
     ,u_oS # Amat
     , # Bmat
     , # exo
-    ,c(0.75,0.2,1,1,1,10,1000) # SZBSVAR
+    ,c(0.5,0.2,1,1,1,1,100) # SZBSVAR
   )
   
   sentymenty_diff <- ts(sent_org$sent,end=end(dane_var),freq=12)
@@ -54,11 +55,7 @@ sentymenty <- window(sentymenty_all,start=poczatek_proby)
 #sentymenty <- (sentymenty-mean(sentymenty))/sd(sentymenty)
 esi_sent <- window(esi_norm,start=poczatek_proby,end=end(dane_monet))
 
-par(mfrow=c(2,1))
-plot(sentymenty_all)
 plot(sentymenty)
-
-par(mfrow=c(1,1))
 
 ##### MODEL SEARCH #####
 grid_sent <- gridSearch(
