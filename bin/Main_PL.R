@@ -1,7 +1,7 @@
  ##### HEAD #####
 rm(list=ls(all=TRUE))
 setwd("C:/Users/42874/OneDrive - Bain/PhD/Workspace/MonetaryPolicy")
-#library(devtools)
+library(devtools)
 #install_github("Mchojnowski/SentR")
 set.seed(2019)
 
@@ -24,7 +24,7 @@ lSENTY<-list(NULL)
 lIS<-list(NULL)
 
 if (TRUE){
-  #0.95,0.15,1,0.1584893,1,6.3095734,1584.8931925
+# 0.95,0.15,1,0.1584893,1,6.3095734,1584.8931925
 # 10/20/2020 : c(0.7,0.2,1.6,1,1,10,10)
 # 11/20/2020 : c(0.75,0.2,1,1,1,10,1000)
   
@@ -39,7 +39,7 @@ if (TRUE){
     ,u_oS # Amat
     , # Bmat
     , # exo
-    ,c(0.5,0.2,1,1,1,1,100) # SZBSVAR
+    ,c(0.9,0.2,1,1,1,100,100) # SZBSVAR
   )
   
   sentymenty_diff <- ts(sent_org$sent,end=end(dane_var),freq=12)
@@ -65,7 +65,7 @@ grid_sent <- gridSearch(
 		,sentymenty		# Sentymenty
 		,0			# srednia sentymentu
 		,1		# sd sentymentu
-		,0.75 # Minimalna liczba obserwacji w przedziale prawdopodobienstw podanych nizej (im mniejsza liczba, tym ekstrema bardziej dostepne)
+		,0.25 # Minimalna liczba obserwacji w przedziale prawdopodobienstw podanych nizej (im mniejsza liczba, tym ekstrema bardziej dostepne)
 		,100			# Liczba obserwacji w 'gridzie' - liczba kalkulacji rosnie kwadratowo !!!
 		,c(0.05,0.95)		# Przedzial dla minimalnej liczbe obserwacji
 	)
@@ -98,11 +98,14 @@ diag(BmatMP) <- NA
 
 model_D <- VAR(dane_monet,p=1)
 
+plot(irf(SVAR(var_sent$varH,Amat=AmatMP,Bmat=BmatMP),impulse = "WIBOR", response="CPI"))
+plot(irf(SVAR(var_sent$varL,Amat=AmatMP,Bmat=BmatMP),impulse = "WIBOR", response="CPI"))
+
 ##### PLOTS IRF #####
 zmienne <- colnames(dane_monet)
 # Extracted sentiments
-for (i in 3){
-#for(i in 1:ncol(dane_monet)){
+
+for(i in 1:ncol(dane_monet)){
   dev.new()
   par(mfrow=c(3,3),oma=c(0,0,2,0))
   plotIRF(var_sent,model_D,AmatMP,BmatMP,zmienne[i],zmienne[-i],24,0.95,1000,c("High","Low","Control"))

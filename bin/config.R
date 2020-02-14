@@ -29,7 +29,7 @@ library(RColorBrewer)
 lag <- stats::lag
 
 ##### PARAMETRY #####
-poczatek_proby <- c(1995,1)
+poczatek_proby <- c(1999,1)
 poczatek_model <- c(2005,1)
 
 u_oS<-matrix(0,6,6)
